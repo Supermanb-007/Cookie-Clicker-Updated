@@ -1,0 +1,112 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+@font-face {
+  font-family: "GameFont";
+  src: url("../fonts/Adventuring.ttf");
+}
+body {
+  width: 100%;
+  height: 100%;
+  font-family: "GameFont", sans-serif;
+  font-size: 13px;
+  background-color: #000000;
+  color: #f1f1f1;
+}
+.header-sticky {
+  padding: 0 10px;
+  border-bottom: 1px double #f1f1f1;
+  border-top: 1px double #f1f1f1;
+}
+sub {
+  font-size: 7px;
+}
+.header-item {
+  width: 25%;
+  height: auto;
+  float: right;
+  display: flex;
+  justify-content: end;
+}
+.header-items {
+  display: flex;
+  justify-content: space-between;
+}
+.social-links {
+  list-style: none;
+  display: flex;
+  justify-content: space-evenly;
+}
+.social-icons img {
+  width: 25px;
+}
+.social-heading {
+  margin: 0 10px;
+}
+.social-heading p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid #00800000;
+}
+
+.connect-btn {
+  background: transparent;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+.game-sections {
+  width: 100%;
+  height: 90vh;
+  display: flex;
+  background: url("../images/black-stripes.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.game-sections::before {
+  content: "";
+  background: #323232d4;
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+.game-section {
+  width: 33.333333333333336%;
+  border-right: 1px double #f1f1f1;
+  z-index: 2;
+  height: 100%;
+}
+.section-heading {
+  width: 100%;
+  height: 90px;
+  text-align: center;
+}
+.section-body {
+  width: 100%;
+}
+.bakery-name {
+  display: block;
+  background: #00000047;
+  margin: 0 auto;
+  width: 70%;
+  border-radius: 50px;
+  margin-top: 15px;
+  height: 30px;
+}
+.bakery-name .name-changer {
+  text-decoration: none;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 19px;
+  color: #f1f1f1;
+}
+
+.bakery-name:hover {
+  text-shadow: 1px 0px 0px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #000,
+    0 0 82px #000, 0 0 92px #000, 0 0 102px #000, 0 0 151px #000;
+}
