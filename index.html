@@ -14,6 +14,7 @@
     />
   </head>
   <body>
+    <!-- Header Component -->
     <header class="header-sticky">
       <div class="header-items">
         <div class="trademark-logo">
@@ -41,40 +42,47 @@
         </div>
       </div>
     </header>
+    <!-- Main Component -->
     <main class="game-sections">
       <section class="game-section left-section">
         <div class="section-heading">
-            <div class="bakery-name">
-                <a href="javascript:void" class="name-changer">
-                    <span>Simon's Bakery</span>
-                </a></div>
-            <div class="cookie-count-wrapper">
-                <span class="cookie-count">8 Cookies</span>
-            </div>
-          <h2>Section Heading</h2>
+          <div class="bakery-name">
+            <a href="javascript:void" class="name-changer">
+              <span>Simon's Bakery</span>
+            </a>
+          </div>
+          <div class="cookie-count-wrapper">
+            <p class="cookie-count">8 Cookies</p>
+            <p class="per-second">per second : <span class="per-second-count">0</span></p>
+          </div>
         </div>
         <div class="section-body">
-
+          <div class="cookie-wrapper">
+            <div class="bg-shine">
+              <div class="clockwise-shine"></div>
+              <div class="anticlockwise-shine"></div>
+            </div>
+            <div class="cookie"></div>
+          </div>
+          <div class="milk-wrapper">
+            <div class="milk milk-2 wave wave-2"></div>
+          </div>
         </div>
       </section>
       <section class="game-section center-section">
         <div class="section-heading">
           <h2>Section Heading</h2>
         </div>
-        <div class="section-body">
-
-        </div>
+        <div class="section-body"></div>
       </section>
       <section class="game-section right-section">
         <div class="section-heading">
           <h2>Section Heading</h2>
         </div>
-        <div class="section-body">
-
-        </div>
+        <div class="section-body"></div>
       </section>
-    </main>
-    <footer></footer>
+    </main> 
+    <!-- Scripts -->
     <script src="./assets/scripts/game.js" defer></script>
   </body>
 </html>
