@@ -169,8 +169,8 @@ sub {
     transform: rotate(0deg);
   }
 }
-.cookie-wrapper .cookie{
-  background: url('../images/cookie-2.png') no-repeat;
+.cookie-wrapper .cookie {
+  background: url("../images/cookie-2.png") no-repeat;
   background-size: 100% 100%;
   height: 200px;
   width: 200px;
@@ -180,10 +180,63 @@ sub {
   cursor: pointer;
   z-index: 2;
   user-select: none;
-  transition: opacity 0.1s ease-out, transform 0.1s ease-out;
+  /* transition: opacity 0.1s ease-out, transform 0.1s ease-out; */
 }
 
-.milk-wrapper{
+.cookie-wrapper .cookie:active {
+  animation:  pulseR 0.3s linear;
+}
+
+@keyframes punchDown {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  20% {
+    transform: translate(0px, 2px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
+@keyframes punchUp {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  20% {
+    transform: translate(0px, -2px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
+@keyframes pulse {
+  0%{
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(0.9);
+  }
+  75% {
+    transform: scale(1);
+  }
+}
+
+@keyframes pulseR {
+  from{
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(0.9);
+  }
+  75% {
+    transform: scale(1);
+  }
+  to{
+    transform: scale(0.9);
+  }
+}
+
+.milk-wrapper {
   width: 100%;
   height: 200px;
 }
@@ -202,7 +255,8 @@ sub {
   background-clip: text;
   color: transparent;
   text-shadow: 0px 0px rgba(255, 255, 255, 0.06);
-  animation: wave-animation 5s infinite linear, milk-animation 5s infinite linear alternate;
+  animation: wave-animation 5s infinite linear,
+    milk-animation 5s infinite linear alternate;
   background-size: 200px 100px;
   background-repeat: repeat-x;
   opacity: 1;
@@ -218,20 +272,20 @@ sub {
 
 @keyframes wave-animation {
   0% {
-      background-position: 0 bottom;
+    background-position: 0 bottom;
   }
 
   100% {
-      background-position: 200px bottom;
+    background-position: 200px bottom;
   }
 }
 
 @keyframes milk-animation {
   0% {
-      background-size: 200px 200px;
+    background-size: 200px 200px;
   }
 
   100% {
-      background-size: 200px 200px;
+    background-size: 200px 200px;
   }
 }
