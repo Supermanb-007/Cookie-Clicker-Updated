@@ -12,6 +12,12 @@
       media="screen"
       href="./assets/stylesheets/game.css"
     />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="./assets/stylesheets/utilites.css"
+    />
     <!-- https://stackoverflow.com/questions/31388401/javascript-clicker-clicking-animation -->
   </head>
   <body>
@@ -45,7 +51,7 @@
     </header>
     <!-- Main Component -->
     <main class="game-sections">
-      <section class="game-section left-section">
+      <section class="game-section cookie-section left-section">
         <div class="section-heading">
           <div class="bakery-name">
             <a href="javascript:void" class="name-changer">
@@ -54,7 +60,9 @@
           </div>
           <div class="cookie-count-wrapper">
             <p class="cookie-count">8 Cookies</p>
-            <p class="per-second">per second : <span class="per-second-count">0</span></p>
+            <p class="per-second">
+              per second : <span class="per-second-count">0</span>
+            </p>
           </div>
         </div>
         <div class="section-body">
@@ -70,19 +78,65 @@
           </div>
         </div>
       </section>
-      <section class="game-section center-section">
+      <section class="game-section playground-section center-section">
+        <div class="section-body w-h-100">
+          <div class="options-bar">
+            <div class="left-options">
+              <div class="option" data-dialog="options-dialog">
+                <p class="option-name bb1White">Options</p>
+              </div>
+              <div class="option" data-dialog="stats-dialog">
+                <p class="option-name">Stats</p>
+              </div>
+            </div>
+            <div class="comments-update">
+              <div class="updates-box">
+                <div class="updates">
+                  <ul class="updates-list">
+                    <li class="list fade-up-and-poof">
+                      Your cookies are talked about for miles around.
+                      Yourcookies are talked about for miles around.
+                    </li>
+                    <li class="list fade-in">
+                      Your cookies are talked about for miles around about for
+                      miles around.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="right-options">
+              <div class="option" data-dialog="info-dialog">
+                <p class="option-name bb1White">Info</p>
+              </div>
+              <div class="option" data-dialog="legend-dialog">
+                <p class="option-name">Legend</p>
+              </div>
+            </div>
+          </div>
+          <div class="play-area">
+            <div class="options-dialog">
+              <div class="dialog-close">X</div>
+            </div>
+            <div class="stats-dialog">
+              <div class="dialog-close">X</div>
+            </div>
+            <div class="info-dialog">
+              <div class="dialog-close">X</div>
+            </div>
+            <div class="legend-dialog">
+              <div class="dialog-close">X</div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="game-section upgrade-section right-section">
         <div class="section-heading">
           <h2>Section Heading</h2>
         </div>
         <div class="section-body"></div>
       </section>
-      <section class="game-section right-section">
-        <div class="section-heading">
-          <h2>Section Heading</h2>
-        </div>
-        <div class="section-body"></div>
-      </section>
-    </main> 
+    </main>
     <!-- Scripts -->
     <script src="./assets/scripts/game.js" defer></script>
   </body>

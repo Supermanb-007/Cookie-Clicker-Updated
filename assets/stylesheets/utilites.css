@@ -1,0 +1,13 @@
+.bb1White {
+  border-bottom: 1px solid;
+}
+.w-100{
+    width: 100%;
+}
+.h-100{
+    height: 100%;
+}
+.w-h-100{
+    width: 100%;
+    height: 100%;
+}

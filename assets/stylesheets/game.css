@@ -3,10 +3,12 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 @font-face {
   font-family: "GameFont";
   src: url("../fonts/Adventuring.ttf");
 }
+
 body {
   width: 100%;
   height: 100%;
@@ -15,14 +17,17 @@ body {
   background-color: #000000;
   color: #f1f1f1;
 }
+
 .header-sticky {
   padding: 0 10px;
   border-bottom: 1px double #f1f1f1;
   border-top: 1px double #f1f1f1;
 }
+
 sub {
   font-size: 7px;
 }
+
 .header-item {
   width: 25%;
   height: auto;
@@ -30,21 +35,26 @@ sub {
   display: flex;
   justify-content: end;
 }
+
 .header-items {
   display: flex;
   justify-content: space-between;
 }
+
 .social-links {
   list-style: none;
   display: flex;
   justify-content: space-evenly;
 }
+
 .social-icons img {
   width: 25px;
 }
+
 .social-heading {
   margin: 0 10px;
 }
+
 .social-heading p {
   display: flex;
   justify-content: center;
@@ -58,9 +68,10 @@ sub {
   border: none;
   cursor: pointer;
 }
+
 .game-sections {
   width: 100%;
-  height: 90vh;
+  height: 95vh;
   display: flex;
   background: url("../images/black-stripes.jpg");
   background-repeat: no-repeat;
@@ -73,24 +84,39 @@ sub {
   position: absolute;
   z-index: 1;
   width: 100%;
-  height: 90%;
+  height: 95%;
 }
+
 .game-section {
-  width: 33.333333333333336%;
   border-right: 1px double #f1f1f1;
   z-index: 2;
   height: 100%;
   overflow: hidden;
 }
+
+.left-section {
+  width: 35%;
+}
+
+.center-section {
+  width: 50%;
+}
+
+.right-section {
+  width: 35%;
+}
+
 .section-heading {
   width: 100%;
   height: 90px;
   text-align: center;
 }
+
 .section-body {
   width: 100%;
-  height: 100%;
+  height: 80%;
 }
+
 .bakery-name {
   display: block;
   background: #00000047;
@@ -100,6 +126,7 @@ sub {
   margin-top: 15px;
   height: 30px;
 }
+
 .bakery-name .name-changer {
   text-decoration: none;
   text-align: center;
@@ -112,6 +139,7 @@ sub {
   text-shadow: 1px 0px 0px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #000,
     0 0 82px #000, 0 0 92px #000, 0 0 102px #000, 0 0 151px #000;
 }
+
 .cookie-count-wrapper {
   width: 100%;
   background: #00000047;
@@ -119,18 +147,22 @@ sub {
   font-size: 20px;
   padding: 4px 5px;
 }
+
 .per-second {
-  font-size: 13px;
+  font-size: 12px;
 }
+
 .cookie-wrapper {
   width: 100%;
   height: 60%;
 }
+
 .bg-shine {
   width: 100%;
   height: 100%;
   position: relative;
 }
+
 .bg-shine .clockwise-shine,
 .bg-shine .anticlockwise-shine {
   background: url(../images/bg-shine.png) no-repeat;
@@ -145,12 +177,15 @@ sub {
   opacity: 0.3;
   margin: 0 auto;
 }
+
 .clockwise-shine {
   animation: rotation 30s infinite linear;
 }
+
 .anticlockwise-shine {
   animation: antirotation 30s infinite linear;
 }
+
 @keyframes rotation {
   from {
     transform: rotate(0deg);
@@ -160,6 +195,7 @@ sub {
     transform: rotate(359deg);
   }
 }
+
 @keyframes antirotation {
   from {
     transform: rotate(359deg);
@@ -169,6 +205,7 @@ sub {
     transform: rotate(0deg);
   }
 }
+
 .cookie-wrapper .cookie {
   background: url("../images/cookie-2.png") no-repeat;
   background-size: 100% 100%;
@@ -184,61 +221,74 @@ sub {
 }
 
 .cookie-wrapper .cookie:active {
-  animation:  pulseR 0.3s linear;
+  animation: pulseR 0.3s linear;
 }
 
 @keyframes punchDown {
   0% {
     transform: translate(0px, 0px);
   }
+
   20% {
     transform: translate(0px, 2px);
   }
+
   100% {
     transform: translate(0px, 0px);
   }
 }
+
 @keyframes punchUp {
   0% {
     transform: translate(0px, 0px);
   }
+
   20% {
     transform: translate(0px, -2px);
   }
+
   100% {
     transform: translate(0px, 0px);
   }
 }
+
 @keyframes pulse {
-  0%{
+  0% {
     transform: scale(1);
   }
+
   25% {
     transform: scale(0.9);
   }
+
   75% {
     transform: scale(1);
   }
 }
 
 @keyframes pulseR {
-  from{
+  from {
     transform: scale(1);
   }
+
   25% {
     transform: scale(0.9);
   }
+
   75% {
     transform: scale(1);
   }
-  to{
+
+  to {
     transform: scale(0.9);
   }
 }
 
 .milk-wrapper {
   width: 100%;
-  height: 200px;
+  min-height: 44%;
+  height: 70%;
+  /* position: relative; */
 }
 
 .milk-wrapper .milk {
@@ -247,6 +297,7 @@ sub {
   line-height: 110px;
   display: block;
 }
+
 .milk-wrapper .wave {
   background-image: url("../images/MilkPlain.png");
   -moz-background-clip: text;
@@ -288,4 +339,174 @@ sub {
   100% {
     background-size: 200px 200px;
   }
+}
+
+.center-section .options-bar {
+  width: 100%;
+  height: 110px;
+  background: #000000a6;
+}
+
+.center-section .play-area {
+  width: 100%;
+  height: 100%;
+}
+
+.options-bar .left-options {
+  width: 15%;
+  height: 100%;
+  float: left;
+  text-align: center;
+  display: table;
+  background: #32323269;
+}
+
+.options-bar .right-options {
+  width: 15%;
+  height: 100%;
+  float: right;
+  text-align: center;
+  display: table;
+  background: #32323269;
+}
+
+.options-bar .left-options .option,
+.options-bar .right-options .option {
+  width: 100%;
+  height: 50%;
+  display: table;
+}
+
+.options-bar .left-options .option:hover,
+.options-bar .right-options .option:hover {
+  text-shadow: 1px 0px 0px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #000,
+    0 0 82px #000, 0 0 92px #000, 0 0 102px #000, 0 0 151px #000;
+  cursor: pointer;
+}
+
+.options-bar .left-options .option .option-name,
+.options-bar .right-options .option .option-name {
+  text-align: center;
+  vertical-align: middle;
+  display: table-cell;
+  font-size: 16px;
+}
+
+.comments-update {
+  width: 70%;
+  margin: 0 auto;
+  height: 100%;
+  float: left;
+}
+
+.comments-update .updates {
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.updates-box {
+  width: 100%;
+  height: 100%;
+}
+
+.updates::before {
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  content: "";
+  position: absolute;
+  box-shadow: 0px 0px 20px 5px #f1f1f1;
+}
+
+.updates::after {
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  width: 100%;
+  content: "";
+  position: absolute;
+  box-shadow: 0px 0px 20px 5px #f1f1f1;
+}
+
+.updates .updates-list {
+  float: right;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.updates-list .list {
+  opacity: 1;
+  height: 20px;
+  padding: 10px;
+  list-style: none;
+  position: relative;
+}
+
+.fade-up-and-poof {
+  -webkit-animation: fade-up-and-poof 3s infinite forwards;
+  -moz-animation: fade-up-and-poof 3s infinite forwards;
+  animation: fade-up-and-poof 3s infinite forwards;
+}
+
+.fade-in {
+  -webkit-animation: fade-in 3s infinite forwards;
+  -moz-animation: fade-in 3s infinite forwards;
+  animation: fade-in 3s infinite forwards;
+}
+
+@keyframes fade-up-and-poof {
+  from {
+    top: 0px;
+    opacity: 1;
+  }
+
+  to {
+    top: -40px;
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    top: 40px;
+    opacity: 0;
+  }
+
+  to {
+    top: 0px;
+    opacity: 1;
+  }
+}
+
+.options-dialog,
+.stats-dialog,
+.info-dialog,
+.legend-dialog {
+  width: 100%;
+  height: 100%;
+  background: #000000d1;
+}
+.dialog-close {
+  width: 45px;
+  height: 45px;
+  float: right;
+  text-align: center;
+  position: relative;
+  top: 0px;
+  right: 0px;
+  border-bottom-left-radius: 36px;
+  font-size: 15px;
+  box-shadow: -2px 2px 8px #f1f1f1, 2px -2px 8px rgba(255, 255, 255, 0.1) inset;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  padding: 0 20px;
+}
+.dialog-close:hover {
+  background: rgba(255, 255, 255, 0.05);
 }
