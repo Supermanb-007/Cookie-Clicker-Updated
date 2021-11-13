@@ -517,15 +517,17 @@ sub {
   font-size: 25px;
   background: #00000069;
 }
-.dialog-heading{
+.dialog-heading {
   text-align: center;
 }
-.dialog-heading p{
+.dialog-heading p {
   padding: 13px;
   font-size: 20px;
 }
 .play-area .dialog-heading p::before,
-.play-area .dialog-heading p::after {
+.play-area .dialog-heading p::after,
+.play-area .option-heading p::before,
+.play-area .option-heading p::after {
   content: "";
   display: block;
   background: linear-gradient(
@@ -538,7 +540,7 @@ sub {
   );
   height: 1px;
 }
-.dialog-content{
+.dialog-content {
   width: 100%;
   height: 100%;
   overflow: scroll;
@@ -563,24 +565,11 @@ sub {
 .dialog-content::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
-.option-heading{
+.play-area .option-heading {
   padding: 0 13px;
   font-size: 20px;
 }
-.option-heading::before,
-.option-heading::after{
-  content: "";
-  display: block;
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0.25),
-    rgba(255, 255, 255, 0),
-    rgba(255, 255, 255, 0),
-    rgba(255, 255, 255, 0)
-  );
-  height: 1px;
-}
-.option-body{
+.option-body {
   margin: 10px 0;
   padding: 10px;
   display: flex;
@@ -600,10 +589,101 @@ sub {
   box-shadow: 0 9px #323232;
 }
 
-.option-button:hover {background-color: #686868}
+.option-button:hover {
+  background-color: #686868;
+}
 
 .option-button:active {
   background-color: #686868;
   box-shadow: 0 5px #666;
   transform: translateY(3px);
+}
+
+.section-body .upgrade-options {
+  width: 100%;
+  height: 80px;
+}
+.section-body .upgrade-options .upgrade-boxes {
+  width: 100%;
+  height: 100%;
+}
+.section-body .upgrade-options .upgrade-box {
+  width: 20%;
+  height: 100%;
+  padding: 5px;
+  background: #000000d1;
+  text-align: center;
+}
+.section-body .upgradables {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  padding-bottom: 25px;
+}
+.section-body .upgradables .bulk-buy {
+  width: 100%;
+  height: 50px;
+  margin-bottom: 10px;
+}
+.section-body .upgradables .upgradable-tile {
+  display: flex;
+  background: #ffffff3b;
+  margin-bottom: 10px;
+  box-shadow: 0 3px 10px 0 #eec386;
+}
+.tile-icon {
+  width: 81px;
+  height: 85px;
+}
+.cursor-icon{
+  background: url('../images/cursor.png');
+  background-size: cover;
+}
+.baker-icon{
+  background: url("../images/baker.png");
+  background-size: cover;
+}
+.shop-icon{
+  background: url("../images/cookie-shop.webp");
+  background-size: cover;
+}
+.truck-icon{
+  background: url("../images/truck.png");
+  background-size: cover;
+}
+.tile-wrapper {
+  width: 82%;
+  height: auto;
+}
+.tile-wrapper .tile-info{
+  width: 75%;
+  height: 100%;
+  padding-left: 10px;
+  float: left;
+}
+.tile-wrapper .tile-info .tile-heading{
+  height: 72%;
+  text-align: left;
+  font-size: 20px;
+  color: #000000;
+}
+
+.tile-wrapper .tile-count{
+  width: 25%;
+  height: 100%;
+  float: left;
+  padding-top: 5px;
+  position: relative;
+  color: #252525;
+  opacity: 0.6;
+  font-size: 50px;
+}
+
+.cookie-icon{
+  content: url('../images/smallCookie.png');
+}
+.buy-money{
+  position: relative;
+  top: -5px;
+  color:#000000;
 }
