@@ -7,6 +7,7 @@
 @font-face {
   font-family: "GameFont";
   src: url("../fonts/Adventuring.ttf");
+  font-display: swap;
 }
 
 body {
@@ -16,6 +17,7 @@ body {
   font-size: 13px;
   background-color: #000000;
   color: #f1f1f1;
+  user-select: none;
 }
 
 .header-sticky {
@@ -124,7 +126,8 @@ sub {
   width: 70%;
   border-radius: 50px;
   margin-top: 15px;
-  height: 30px;
+  height: auto;
+  padding: 5px;
 }
 
 .bakery-name .name-changer {
@@ -146,6 +149,7 @@ sub {
   margin-top: 10px;
   font-size: 20px;
   padding: 4px 5px;
+  height: auto;
 }
 
 .per-second {
@@ -168,10 +172,10 @@ sub {
   background: url(../images/bg-shine.png) no-repeat;
   background-size: 100% 100%;
   height: 400px;
-  left: 5%;
+  /* left: 5%; */
   width: 400px;
   position: absolute;
-  user-select: none;
+  
   pointer-events: none;
   z-index: 2;
   opacity: 0.3;
@@ -212,11 +216,11 @@ sub {
   height: 200px;
   width: 200px;
   position: absolute;
-  left: 120px;
+  left: 100px;
   top: 230px;
   cursor: pointer;
   z-index: 2;
-  user-select: none;
+  
   /* transition: opacity 0.1s ease-out, transform 0.1s ease-out; */
 }
 
@@ -507,6 +511,8 @@ sub {
   align-content: center;
   flex-direction: column;
   padding: 0 20px;
+  cursor: pointer;
+  
 }
 .dialog-close:hover {
   background: rgba(255, 255, 255, 0.05);
@@ -630,24 +636,32 @@ sub {
   background: #ffffff3b;
   margin-bottom: 10px;
   box-shadow: 0 3px 10px 0 #eec386;
+  cursor: pointer;
+  
 }
+.section-body .upgradables .upgradable-tile:active {
+  box-shadow: inset 0 0 20px 2px #000;
+}
+/* .section-body .upgradables .upgradable-tile:hover{
+  box-shadow: 0 0 20px 2px #9b9b9b;
+} */
 .tile-icon {
   width: 81px;
   height: 85px;
 }
-.cursor-icon{
-  background: url('../images/cursor.png');
+.cursor-icon {
+  background: url("../images/cursor.png");
   background-size: cover;
 }
-.baker-icon{
+.baker-icon {
   background: url("../images/baker.png");
   background-size: cover;
 }
-.shop-icon{
+.shop-icon {
   background: url("../images/cookie-shop.webp");
   background-size: cover;
 }
-.truck-icon{
+.truck-icon {
   background: url("../images/truck.png");
   background-size: cover;
 }
@@ -655,35 +669,36 @@ sub {
   width: 82%;
   height: auto;
 }
-.tile-wrapper .tile-info{
+.tile-wrapper .tile-info {
   width: 75%;
   height: 100%;
   padding-left: 10px;
   float: left;
 }
-.tile-wrapper .tile-info .tile-heading{
+.tile-wrapper .tile-info .tile-heading {
   height: 72%;
   text-align: left;
   font-size: 20px;
   color: #000000;
 }
 
-.tile-wrapper .tile-count{
+.tile-wrapper .tile-count {
   width: 25%;
   height: 100%;
   float: left;
   padding-top: 5px;
   position: relative;
-  color: #252525;
+  color: #000000;
   opacity: 0.6;
   font-size: 50px;
+  z-index: -1;
 }
 
-.cookie-icon{
-  content: url('../images/smallCookie.png');
+.cookie-icon {
+  content: url("../images/smallCookie.png");
 }
-.buy-money{
+.buy-money {
   position: relative;
   top: -5px;
-  color:#000000;
+  color: #000000;
 }

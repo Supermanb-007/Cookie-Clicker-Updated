@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -18,6 +18,20 @@
       media="screen"
       href="./assets/stylesheets/utilites.css"
     />
+    <meta name="description" content="Play Cookie Clicker the idel clicker game rig ht here with unique new design and mechanics by clicking on a giant cookie and buy upgrades." />
+    <meta name="robots" content="index,follow" />
+    <meta property="og:site_name" content="Cookie Clicker">
+    <meta property="og:url" content="https://cookiesclicker.net">
+    <meta property="og:title" content="Cookie Clicker - Play Cookie Clicker Online">
+    <meta property="og:description" content="Play Cookie Clicker the idel clicker game rig ht here with unique new design and mechanics by clicking on a giant cookie and buy upgrades.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="../favicon.ico">
+    <meta name="twitter:site" content="@ClickerCookies">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Cookie Clicker - Play Cookie Clicker Online">
+    <meta name="twitter:description" content="Play Cookie Clicker the idel clicker game rig ht here with unique new design and mechanics by clicking on a giant cookie and buy upgrades.">
+    <meta name="twitter:url" content="https://cookiesclicker.net">
+    <meta name="twitter:image" content="../favicon.ico">
     <!-- https://stackoverflow.com/questions/31388401/javascript-clicker-clicking-animation -->
   </head>
   <body>
@@ -59,7 +73,7 @@
             </a>
           </div>
           <div class="cookie-count-wrapper">
-            <p class="cookie-count">8 Cookies</p>
+            <p class="cookie-count"><span id="cookieCount">8</span> Cookies</p>
             <p class="per-second">
               per second : <span class="per-second-count">0</span>
             </p>
@@ -68,7 +82,7 @@
         <div class="section-body">
           <div class="cookie-wrapper">
             <div class="bg-shine">
-              <div class="clockwise-shine"></div>
+              <!-- <div class="clockwise-shine"></div> -->
               <div class="anticlockwise-shine"></div>
             </div>
             <div class="cookie"></div>
@@ -95,7 +109,7 @@
                   <ul class="updates-list">
                     <li class="list fade-up-and-poof">
                       Your cookies are talked about for miles around.
-                      Yourcookies are talked about for miles around.
+                      Your cookies are talked about for miles around.
                     </li>
                     <li class="list fade-in">
                       Your cookies are talked about for miles around about for
@@ -160,40 +174,25 @@
           <div class="upgrade-options">
             <div class="upgrade-boxes">
               <div class="upgrade-box border-all float-left border-grey">
-                <img
-                  class="upgrade-icon"
-                  src="./assets/images/icons8-facebook.svg"
-                />
+                <img alt="Cookie Clicker" class="upgrade-icon" src="./assets/images/icons8-facebook.svg"/>
               </div>
               <div class="upgrade-box border-all float-left border-grey">
-                <img
-                  class="upgrade-icon"
-                  src="./assets/images/icons8-facebook.svg"
-                />
+                <img alt="Cookie Clicker" class="upgrade-icon" src="./assets/images/icons8-facebook.svg"/>
               </div>
               <div class="upgrade-box border-all float-left border-grey">
-                <img
-                  class="upgrade-icon"
-                  src="./assets/images/icons8-facebook.svg"
-                />
+                <img alt="Cookie Clicker" class="upgrade-icon" src="./assets/images/icons8-facebook.svg"/>
               </div>
               <div class="upgrade-box border-all float-left border-grey">
-                <img
-                  class="upgrade-icon"
-                  src="./assets/images/icons8-facebook.svg"
-                />
+                <img alt="Cookie Clicker" class="upgrade-icon" src="./assets/images/icons8-facebook.svg"/>
               </div>
               <div class="upgrade-box border-all float-left border-grey">
-                <img
-                  class="upgrade-icon"
-                  src="./assets/images/icons8-facebook.svg"
-                />
+                <img alt="Cookie Clicker" class="upgrade-icon" src="./assets/images/icons8-facebook.svg"/>
               </div>
             </div>
           </div>
           <div class="upgradables">
             <div class="bulk-buy bb1White"></div>
-            <div class="upgradable-tile bb1White">
+            <div class="upgradable-tile bb1White" data-tile="cursor">
               <div class="tile-icon cursor-icon"></div>
               <div class="tile-wrapper">
                 <div class="tile-info">
@@ -206,7 +205,7 @@
                 <div class="tile-count">20</div>
               </div>
             </div>
-            <div class="upgradable-tile bb1White">
+            <div class="upgradable-tile bb1White" data-tile="baker">
               <div class="tile-icon baker-icon"></div>
               <div class="tile-wrapper">
                 <div class="tile-info">
@@ -219,7 +218,7 @@
                 <div class="tile-count">20</div>
               </div>
             </div>
-            <div class="upgradable-tile bb1White">
+            <div class="upgradable-tile bb1White" data-tile="cookieShop">
               <div class="tile-icon shop-icon"></div>
               <div class="tile-wrapper">
                 <div class="tile-info">
@@ -232,7 +231,7 @@
                 <div class="tile-count">20</div>
               </div>
             </div>
-            <div class="upgradable-tile bb1White">
+            <div class="upgradable-tile bb1White" data-tile="trucks">
               <div class="tile-icon truck-icon"></div>
               <div class="tile-wrapper">
                 <div class="tile-info">
@@ -245,7 +244,7 @@
                 <div class="tile-count">20</div>
               </div>
             </div>
-            <div class="upgradable-tile bb1White">
+            <div class="upgradable-tile bb1White" data-tile="yard">
               <div class="tile-icon baker-icon"></div>
               <div class="tile-wrapper">
                 <div class="tile-info">
@@ -261,6 +260,9 @@
           </div>
         </div>
       </section>
+      <div class="do-not-see">
+        <audio id="crunchSound" src="./assets/sounds/cookie_crunch.mp3">
+      </div>
     </main>
     <!-- Scripts -->
     <script src="./assets/scripts/game.js" defer></script>

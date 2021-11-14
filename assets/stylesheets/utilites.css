@@ -22,3 +22,6 @@
 .float-left {
     float:left;
 }
+.do-not-see{
+    display: none !important;
+}
