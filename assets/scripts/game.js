@@ -31,10 +31,10 @@ var Game = {
       bakerCount: localStorage.getItem("bakerCount")
         ? parseInt(localStorage.getItem("bakerCount"))
         : 0,
-        sounds:{
-          crunchSound:"../assets/sounds/cookie_crunch.mp3",
-          otherSound:"../assets/sounds/buy_click.mp3"
-        }
+      sounds: {
+        crunchSound: "../assets/sounds/cookie_crunch.mp3",
+        otherSound: "../assets/sounds/buy_click.mp3",
+      },
     };
 
     // Selectors
@@ -83,10 +83,12 @@ var Game = {
     switch (typeOfUpgrade) {
       case "cursor":
         this.cursorCount = ++this.GameSettings.cursorCount;
-        this.GameSettings.cursorCurrentPrice = this.GameSettings.cursorCurrentPrice + 3;
+        this.GameSettings.cursorCurrentPrice =
+          this.GameSettings.cursorCurrentPrice + 3;
       case "baker":
         this.bakerCount = ++this.GameSettings.bakerCount;
-        this.GameSettings.bakerCurrentPrice = this.GameSettings.bakerCurrentPrice + 15;
+        this.GameSettings.bakerCurrentPrice =
+          this.GameSettings.bakerCurrentPrice + 15;
         break;
     }
     this.UpdateThings(event.currentTarget);
@@ -103,10 +105,11 @@ var Game = {
       ? localStorage.getItem("bakersName")
       : this.GameSettings.bakersName;
   },
-  UpdateThings:function UpdateThings(selector){
-    selector.querySelector(".tile-count").innerText = this.GameSettings.cursorCount;
-    console.log("Updated..")
-  }, 
+  UpdateThings: function UpdateThings(selector) {
+    selector.querySelector(".tile-count").innerText =
+      this.GameSettings.cursorCount;
+    console.log("Updated..");
+  },
   GetBakersName: function GetBakersName() {
     let bakerArrayName = [
       "Mechanized",
