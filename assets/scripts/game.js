@@ -1,25 +1,24 @@
-const Game = {
+var Game = {
   Init: function Init() {
-    console.log("Hey You! You Naughty Naughty..")
-    //console.log("Game Init",this)
-    this.Load();
-  },
-  Load: function Load() {
-    console.log("Game loading...");
-    const GameSettings = {
+    console.log("Hey You! You Naughty Naughty..");
+
+    // Game Settings
+    this.GameSettings = {
       autosave: true,
-      cookieCount: localStorage.getItem("cookieCount")
-        ? parseInt(localStorage.getItem("cookieCount"))
-        : 0,
       connectVia: "none",
       isGuest: true,
       sound: true,
-      bakersName: localStorage.getItem("bakersName")
-        ? localStorage.getItem("bakersName")
-        : this.GetBakersName(),
+      cookieCount: localStorage.getItem("cookieCount")
+        ? parseInt(localStorage.getItem("cookieCount"))
+        : 0,
       cursorCount: localStorage.getItem("cursorCount")
         ? parseInt(localStorage.getItem("cursorCount"))
         : 0,
+      cursorBasePrice: 15,
+      cursorCurrentPrice: 15,
+      bakersName: localStorage.getItem("bakersName")
+        ? localStorage.getItem("bakersName")
+        : this.GetBakersName(),
       bakerBasePrice: 100,
       bakerCount: localStorage.getItem("bakerCount")
         ? parseInt(localStorage.getItem("bakerCount"))
@@ -32,29 +31,82 @@ const Game = {
       bakerCount: localStorage.getItem("bakerCount")
         ? parseInt(localStorage.getItem("bakerCount"))
         : 0,
+        sounds:{
+          crunchSound:"../assets/sounds/cookie_crunch.mp3",
+          otherSound:"../assets/sounds/buy_click.mp3"
+        }
     };
-    const HandleCookieClicks = () => {
-      GameSettings.cookieCount = ++GameSettings.cookieCount;
-      localStorage.setItem("cookieCount", GameSettings.cookieCount);
-      this.cookieCount.innerText = GameSettings.cookieCount;
-      this.HandleAudio("cookie");
-    };
+
+    // Selectors
+    this.nameChanger = document.querySelector(".name-changer");
     this.cookie = document.querySelector(".cookie");
-    this.cookie.addEventListener("click", HandleCookieClicks, false);
     this.cookieCount = document.querySelector("#cookieCount");
+    this.upgradeCounter = document.querySelectorAll(".upgradable-tile");
+
+    // Event Listeners
+    this.cookie.addEventListener(
+      "click",
+      this.HandleCookieClicks.bind(this),
+      false
+    );
+    this.upgradeCounter.forEach((tileInstance) => {
+      tileInstance.addEventListener(
+        "click",
+        this.HandleUpgrades.bind(this),
+        false
+      );
+    });
+    this.Load();
   },
   HandleAudio: function HandleAudio(forWhat) {
-    console.log(forWhat);
     switch (forWhat) {
       case "cookie":
-        this.crunchSound = document.querySelector("#crunchSound");
+        this.crunchSound = new Audio(this.GameSettings.sounds.crunchSound);
         this.crunchSound.currentTime = 0;
         this.crunchSound.play();
         break;
-        case "buy-sell":
-            break;
+      case "other":
+        this.otherSound = new Audio(this.GameSettings.sounds.otherSound);
+        this.otherSound.currentTime = 0;
+        this.otherSound.play();
+        break;
     }
   },
+  HandleCookieClicks: function HandleCookieClicks() {
+    this.GameSettings.cookieCount = ++this.GameSettings.cookieCount;
+    localStorage.setItem("cookieCount", this.GameSettings.cookieCount);
+    this.cookieCount.innerText = this.GameSettings.cookieCount;
+    this.HandleAudio("cookie");
+  },
+  HandleUpgrades: function HandleUpgrades(event) {
+    let typeOfUpgrade = event.currentTarget.getAttribute("data-tile");
+    switch (typeOfUpgrade) {
+      case "cursor":
+        this.cursorCount = ++this.GameSettings.cursorCount;
+        this.GameSettings.cursorCurrentPrice = this.GameSettings.cursorCurrentPrice + 3;
+      case "baker":
+        this.bakerCount = ++this.GameSettings.bakerCount;
+        this.GameSettings.bakerCurrentPrice = this.GameSettings.bakerCurrentPrice + 15;
+        break;
+    }
+    this.UpdateThings(event.currentTarget);
+    this.HandleAudio("other");
+  },
+  Load: function Load() {
+    console.log("Game loading...");
+    // Loading Game Values
+    console.log(this);
+    this.cookieCount.innerText = this.GameSettings.cookieCount;
+    this.nameChanger.querySelector("span").innerText = localStorage.getItem(
+      "bakersName"
+    )
+      ? localStorage.getItem("bakersName")
+      : this.GameSettings.bakersName;
+  },
+  UpdateThings:function UpdateThings(selector){
+    selector.querySelector(".tile-count").innerText = this.GameSettings.cursorCount;
+    console.log("Updated..")
+  }, 
   GetBakersName: function GetBakersName() {
     let bakerArrayName = [
       "Mechanized",
