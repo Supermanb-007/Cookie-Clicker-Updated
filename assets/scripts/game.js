@@ -3,39 +3,68 @@ var Game = {
     console.log("Hey You! You Naughty Naughty..");
 
     // Game Settings
-    this.GameSettings = {
+    let defaultSettings = {
       autosave: true,
       connectVia: "none",
       isGuest: true,
       sound: true,
-      cookieCount: localStorage.getItem("cookieCount")
-        ? parseInt(localStorage.getItem("cookieCount"))
-        : 0,
-      cursorCount: localStorage.getItem("cursorCount")
-        ? parseInt(localStorage.getItem("cursorCount"))
-        : 0,
-      cursorBasePrice: 15,
-      cursorCurrentPrice: 15,
       bakersName: localStorage.getItem("bakersName")
         ? localStorage.getItem("bakersName")
         : this.GetBakersName(),
-      bakerBasePrice: 100,
-      bakerCount: localStorage.getItem("bakerCount")
-        ? parseInt(localStorage.getItem("bakerCount"))
-        : 0,
-      shopBasePrice: 1100,
-      bakerCount: localStorage.getItem("bakerCount")
-        ? parseInt(localStorage.getItem("bakerCount"))
-        : 0,
-      truckBasePrice: 12000,
-      bakerCount: localStorage.getItem("bakerCount")
-        ? parseInt(localStorage.getItem("bakerCount"))
-        : 0,
+      cookie: {
+        count: localStorage.getItem("cookiesCount")
+          ? parseInt(localStorage.getItem("cookiesCount"))
+          : 0,
+        cps: 0,
+      },
+      cursors: {
+        count: localStorage.getItem("cursorCount")
+          ? parseInt(localStorage.getItem("cursorCount"))
+          : 0,
+        basePrice: 15,
+        currentPrice: 15,
+        difference: 3,
+      },
+      bakers: {
+        count: localStorage.getItem("bakerCount")
+          ? parseInt(localStorage.getItem("bakerCount"))
+          : 0,
+        basePrice: 100,
+        currentPrice: 100,
+        difference: 33,
+      },
+      shops: {
+        count: localStorage.getItem("cookieShopCount")
+          ? parseInt(localStorage.getItem("cookieShopCount"))
+          : 0,
+        basePrice: 1100,
+        currentPrice: 1100,
+        difference: 165,
+      },
+      trucks: {
+        count: localStorage.getItem("truckCount")
+          ? parseInt(localStorage.getItem("truckCount"))
+          : 0,
+        basePrice: 12000,
+        currentPrice: 12000,
+        difference: 1800,
+      },
+      yards: {
+        count: localStorage.getItem("yardCount")
+          ? parseInt(localStorage.getItem("yardCount"))
+          : 0,
+        basePrice: 130000,
+        currentPrice: 130000,
+        difference: 19500,
+      },
       sounds: {
         crunchSound: "../assets/sounds/cookie_crunch.mp3",
         otherSound: "../assets/sounds/buy_click.mp3",
       },
     };
+    this.GameSettings = localStorage.getItem("settings")
+      ? JSON.parse(localStorage.getItem("settings"))
+      : defaultSettings;
 
     // Selectors
     this.nameChanger = document.querySelector(".name-changer");
@@ -49,14 +78,15 @@ var Game = {
       this.HandleCookieClicks.bind(this),
       false
     );
-    this.upgradeCounter.forEach((tileInstance) => {
+    this.upgradeCounter.forEach((tileInstance) =>
       tileInstance.addEventListener(
         "click",
         this.HandleUpgrades.bind(this),
         false
-      );
-    });
+      )
+    );
     this.Load();
+    console.log(this.GameSettings.cookie);
   },
   HandleAudio: function HandleAudio(forWhat) {
     switch (forWhat) {
@@ -73,42 +103,79 @@ var Game = {
     }
   },
   HandleCookieClicks: function HandleCookieClicks() {
-    this.GameSettings.cookieCount = ++this.GameSettings.cookieCount;
-    localStorage.setItem("cookieCount", this.GameSettings.cookieCount);
-    this.cookieCount.innerText = this.GameSettings.cookieCount;
+    console.log(this.GameSettings.cookie.count);
+    this.GameSettings.cookie.count = ++this.GameSettings.cookie.count;
+    this.cookieCount.innerText = this.GameSettings.cookie.count;
     this.HandleAudio("cookie");
+    this.HandleUpdates();
   },
   HandleUpgrades: function HandleUpgrades(event) {
     let typeOfUpgrade = event.currentTarget.getAttribute("data-tile");
+    let countOfWhat = "";
     switch (typeOfUpgrade) {
-      case "cursor":
-        this.cursorCount = ++this.GameSettings.cursorCount;
-        this.GameSettings.cursorCurrentPrice =
-          this.GameSettings.cursorCurrentPrice + 3;
-      case "baker":
-        this.bakerCount = ++this.GameSettings.bakerCount;
-        this.GameSettings.bakerCurrentPrice =
-          this.GameSettings.bakerCurrentPrice + 15;
+      case "cursors":
+        this.GameSettings.cursors.count = ++this.GameSettings.cursors.count;
+        this.GameSettings.cursors.currentPrice =
+          this.GameSettings.cursors.currentPrice +
+          this.GameSettings.cursors.difference;
+        countOfWhat = "cursors";
+        break;
+      case "bakers":
+        this.GameSettings.bakers.count = ++this.GameSettings.bakers.count;
+        this.GameSettings.bakers.currentPrice =
+          this.GameSettings.bakers.currentPrice +
+          this.GameSettings.bakers.difference;
+        countOfWhat = "bakers";
+        break;
+      case "shops":
+        this.GameSettings.shops.count = ++this.GameSettings.shops.count;
+        this.GameSettings.shops.currentPrice =
+          this.GameSettings.shops.currentPrice +
+          this.GameSettings.shops.difference;
+        countOfWhat = "shops";
+        break;
+      case "trucks":
+        this.GameSettings.trucks.count = ++this.GameSettings.trucks.count;
+        this.GameSettings.trucks.currentPrice =
+          this.GameSettings.trucks.currentPrice +
+          this.GameSettings.trucks.difference;
+        countOfWhat = "trucks";
+        break;
+      case "yards":
+        this.GameSettings.yards.count = ++this.GameSettings.yards.count;
+        this.GameSettings.yards.currentPrice =
+          this.GameSettings.yards.currentPrice +
+          this.GameSettings.yards.difference;
+        countOfWhat = "yards";
         break;
     }
-    this.UpdateThings(event.currentTarget);
+    this.HandleUpdates(event.currentTarget, countOfWhat);
     this.HandleAudio("other");
+  },
+  HandleUpdates: function HandleUpdates(selector, which) {
+    if (selector && which) {
+      selector.querySelector(".buy-money").innerText =
+        this.GameSettings[which].currentPrice;
+      selector.querySelector(".tile-count").innerText =
+        this.GameSettings[which].count;
+    }
+    localStorage.setItem("settings", JSON.stringify(this.GameSettings));
+    console.log("Updated..");
   },
   Load: function Load() {
     console.log("Game loading...");
     // Loading Game Values
     console.log(this);
-    this.cookieCount.innerText = this.GameSettings.cookieCount;
-    this.nameChanger.querySelector("span").innerText = localStorage.getItem(
-      "bakersName"
-    )
-      ? localStorage.getItem("bakersName")
-      : this.GameSettings.bakersName;
-  },
-  UpdateThings: function UpdateThings(selector) {
-    selector.querySelector(".tile-count").innerText =
-      this.GameSettings.cursorCount;
-    console.log("Updated..");
+    this.cookieCount.innerText = this.GameSettings.cookie.count;
+    this.nameChanger.querySelector("span").innerText =
+      this.nameChanger.querySelector("span").innerText = this.GameSettings
+        .isGuest
+        ? this.GetBakersName()
+        : this.GameSettings.bakersName;
+    this.upgradeCounter.forEach((tileInstance) =>
+      this.HandleUpdates(tileInstance, tileInstance.getAttribute("data-tile"))
+    );
+    console.log(this.GameSettings.bakersName);
   },
   GetBakersName: function GetBakersName() {
     let bakerArrayName = [
