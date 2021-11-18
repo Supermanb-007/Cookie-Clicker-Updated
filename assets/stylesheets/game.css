@@ -175,7 +175,7 @@ sub {
   /* left: 5%; */
   width: 400px;
   position: absolute;
-  
+
   pointer-events: none;
   z-index: 2;
   opacity: 0.3;
@@ -220,7 +220,7 @@ sub {
   top: 230px;
   cursor: pointer;
   z-index: 2;
-  
+
   /* transition: opacity 0.1s ease-out, transform 0.1s ease-out; */
 }
 
@@ -512,7 +512,6 @@ sub {
   flex-direction: column;
   padding: 0 20px;
   cursor: pointer;
-  
 }
 .dialog-close:hover {
   background: rgba(255, 255, 255, 0.05);
@@ -637,8 +636,29 @@ sub {
   margin-bottom: 10px;
   box-shadow: 0 3px 10px 0 #eec386;
   cursor: pointer;
-  
 }
+.section-body .upgradables .upgradable-tile .upgrade-overlay{
+  display: none Im !important;
+}
+.section-body .upgradables .upgradable-tile.is-disabled {
+  position: relative;
+  cursor: not-allowed;
+}
+.section-body .upgradables .upgradable-tile.is-disabled .upgrade-overlay{
+  width: 100%;
+  position: absolute;
+  background: #74747452;
+  display: block;
+  z-index: 2;
+  height: 100%;
+  box-shadow: inset 0px 0px 16px 5px #000;
+}
+/* .section-body .upgradables .upgradable-tile.is-disabled .tile-icon {
+  -webkit-filter: grayscale(100%) brightness(0);
+  filter: grayscale(100%) brightness(0);
+  opacity: 0.6;
+} */
+
 .section-body .upgradables .upgradable-tile:active {
   box-shadow: inset 0 0 20px 2px #000;
 }
@@ -670,7 +690,7 @@ sub {
   height: auto;
 }
 .tile-wrapper .tile-info {
-  width: 50%;
+  width: 45%;
   height: 100%;
   padding-left: 10px;
   float: left;
@@ -682,19 +702,22 @@ sub {
   color: #000000;
 }
 
-.tile-wrapper .tile-count {
-  width: 50%;
+.tile-wrapper .tile-count-wrapper {
+  width: 55%;
   height: 100%;
   float: left;
-  padding-top: 5px;
-  position: relative;
+}
+.tile-wrapper .tile-count-wrapper .tile-count {
   color: #000000;
   text-align: right;
   opacity: 0.6;
-  font-size: 50px;
+  font-size: 45px;
   z-index: -1;
 }
 
+.tile-wrapper .tile-count-wrapper .clicksPerSecond {
+  color: #000000;
+}
 .cookie-icon {
   content: url("../images/smallCookie.png");
 }

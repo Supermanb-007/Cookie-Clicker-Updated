@@ -7,7 +7,7 @@ var Game = {
       autosave: true,
       connectVia: "none",
       isGuest: true,
-      sound: true,
+      sound: false,
       bakersName: localStorage.getItem("bakersName")
         ? localStorage.getItem("bakersName")
         : this.GetBakersName(),
@@ -24,6 +24,7 @@ var Game = {
         basePrice: 15,
         currentPrice: 15,
         difference: 3,
+        cps: 0,
       },
       bakers: {
         count: localStorage.getItem("bakerCount")
@@ -32,6 +33,7 @@ var Game = {
         basePrice: 100,
         currentPrice: 100,
         difference: 33,
+        cps: 0,
       },
       shops: {
         count: localStorage.getItem("cookieShopCount")
@@ -40,6 +42,7 @@ var Game = {
         basePrice: 1100,
         currentPrice: 1100,
         difference: 165,
+        cps: 0,
       },
       trucks: {
         count: localStorage.getItem("truckCount")
@@ -48,6 +51,7 @@ var Game = {
         basePrice: 12000,
         currentPrice: 12000,
         difference: 1800,
+        cps: 0,
       },
       yards: {
         count: localStorage.getItem("yardCount")
@@ -56,6 +60,7 @@ var Game = {
         basePrice: 130000,
         currentPrice: 130000,
         difference: 19500,
+        cps: 0,
       },
       sounds: {
         crunchSound: "../assets/sounds/cookie_crunch.mp3",
@@ -89,6 +94,9 @@ var Game = {
     console.log(this.GameSettings.cookie);
   },
   HandleAudio: function HandleAudio(forWhat) {
+    if (!this.GameSettings.sound) {
+      return;
+    }
     switch (forWhat) {
       case "cookie":
         this.crunchSound = new Audio(this.GameSettings.sounds.crunchSound);
@@ -108,45 +116,113 @@ var Game = {
     this.cookieCount.innerText = this.GameSettings.cookie.count;
     this.HandleAudio("cookie");
     this.HandleUpdates();
+    this.CheckUpdates();
   },
   HandleUpgrades: function HandleUpgrades(event) {
     let typeOfUpgrade = event.currentTarget.getAttribute("data-tile");
     let countOfWhat = "";
     switch (typeOfUpgrade) {
       case "cursors":
-        this.GameSettings.cursors.count = ++this.GameSettings.cursors.count;
-        this.GameSettings.cursors.currentPrice =
-          this.GameSettings.cursors.currentPrice +
-          this.GameSettings.cursors.difference;
+        if (
+          this.GameSettings.cookie.count <
+          this.GameSettings.cursors.currentPrice
+        ) {
+          return;
+        } else {
+          this.GameSettings.cookie.count =
+            this.GameSettings.cookie.count -
+            this.GameSettings.cursors.currentPrice;
+          this.GameSettings.cursors.count = ++this.GameSettings.cursors.count;
+          this.GameSettings.cursors.count % 2 == 0
+            ? (this.GameSettings.cursors.difference =
+                this.GameSettings.cursors.difference + 1)
+            : false;
+          this.GameSettings.cursors.currentPrice =
+            this.GameSettings.cursors.currentPrice +
+            this.GameSettings.cursors.difference;
+          this.GameSettings.cursors.cps = parseFloat(
+            this.GameSettings.cursors.count * 0.3 + 0.1
+          ).toFixed(2);
+        }
         countOfWhat = "cursors";
         break;
       case "bakers":
-        this.GameSettings.bakers.count = ++this.GameSettings.bakers.count;
-        this.GameSettings.bakers.currentPrice =
-          this.GameSettings.bakers.currentPrice +
-          this.GameSettings.bakers.difference;
-        countOfWhat = "bakers";
+        if (
+          this.GameSettings.cookie.count < this.GameSettings.bakers.currentPrice
+        ) {
+          return;
+        } else {
+          this.GameSettings.cookie.count =
+            this.GameSettings.cookie.count -
+            this.GameSettings.bakers.currentPrice;
+          this.GameSettings.bakers.count = ++this.GameSettings.bakers.count;
+          this.GameSettings.bakers.difference =
+            this.GameSettings.bakers.difference + 1;
+          this.GameSettings.bakers.currentPrice =
+            this.GameSettings.bakers.currentPrice +
+            this.GameSettings.bakers.difference;
+          countOfWhat = "bakers";
+        }
         break;
       case "shops":
-        this.GameSettings.shops.count = ++this.GameSettings.shops.count;
-        this.GameSettings.shops.currentPrice =
-          this.GameSettings.shops.currentPrice +
-          this.GameSettings.shops.difference;
-        countOfWhat = "shops";
+        if (
+          this.GameSettings.cookie.count < this.GameSettings.shops.currentPrice
+        ) {
+          return;
+        } else {
+          this.GameSettings.cookie.count =
+            this.GameSettings.cookie.count -
+            this.GameSettings.shops.currentPrice;
+          this.GameSettings.shops.count = ++this.GameSettings.shops.count;
+          this.GameSettings.shops.count % 2 == 0
+            ? (this.GameSettings.shops.difference =
+                this.GameSettings.shops.difference + 1)
+            : false;
+          this.GameSettings.shops.currentPrice =
+            this.GameSettings.shops.currentPrice +
+            this.GameSettings.shops.difference;
+          countOfWhat = "shops";
+        }
         break;
       case "trucks":
-        this.GameSettings.trucks.count = ++this.GameSettings.trucks.count;
-        this.GameSettings.trucks.currentPrice =
-          this.GameSettings.trucks.currentPrice +
-          this.GameSettings.trucks.difference;
-        countOfWhat = "trucks";
+        if (
+          this.GameSettings.cookie.count < this.GameSettings.trucks.currentPrice
+        ) {
+          return;
+        } else {
+          this.GameSettings.cookie.count =
+            this.GameSettings.cookie.count -
+            this.GameSettings.trucks.currentPrice;
+          this.GameSettings.trucks.count = ++this.GameSettings.trucks.count;
+          this.GameSettings.trucks.count % 2 == 0
+            ? (this.GameSettings.trucks.difference =
+                this.GameSettings.trucks.difference + 1)
+            : false;
+          this.GameSettings.trucks.currentPrice =
+            this.GameSettings.trucks.currentPrice +
+            this.GameSettings.trucks.difference;
+          countOfWhat = "trucks";
+        }
         break;
       case "yards":
-        this.GameSettings.yards.count = ++this.GameSettings.yards.count;
-        this.GameSettings.yards.currentPrice =
-          this.GameSettings.yards.currentPrice +
-          this.GameSettings.yards.difference;
-        countOfWhat = "yards";
+        if (
+          this.GameSettings.cookie.count < this.GameSettings.yards.currentPrice
+        ) {
+          return;
+        } else {
+          this.GameSettings.cookie.count =
+            this.GameSettings.cookie.count -
+            this.GameSettings.yards.currentPrice;
+          this.GameSettings.yards.count = ++this.GameSettings.yards.count;
+          this.GameSettings.yards.count % 2 == 0
+            ? (this.GameSettings.yards.difference =
+                this.GameSettings.yards.difference + 1)
+            : false;
+          this.GameSettings.yards.currentPrice =
+            this.GameSettings.yards.currentPrice +
+            this.GameSettings.yards.difference;
+          countOfWhat = "yards";
+        }
         break;
     }
     this.HandleUpdates(event.currentTarget, countOfWhat);
@@ -154,13 +230,29 @@ var Game = {
   },
   HandleUpdates: function HandleUpdates(selector, which) {
     if (selector && which) {
+      this.cookieCount.innerText = this.GameSettings.cookie.count;
       selector.querySelector(".buy-money").innerText =
         this.GameSettings[which].currentPrice;
       selector.querySelector(".tile-count").innerText =
         this.GameSettings[which].count;
+      selector.querySelector(".cps").innerText = `${this.GameSettings[which].cps} cookies`;
     }
     localStorage.setItem("settings", JSON.stringify(this.GameSettings));
+    this.CheckUpdates();
     console.log("Updated..");
+  },
+  CheckUpdates: function CheckUpdates(){
+    console.log("Checking prices..")
+    this.GameSettings.cookie.count >= this.GameSettings.cursors.currentPrice ? document.querySelector("[data-tile='cursors']").classList.remove("is-disabled"): document.querySelector("[data-tile='cursors']").classList.add("is-disabled");
+    
+    this.GameSettings.cookie.count >= this.GameSettings.bakers.currentPrice ? document.querySelector("[data-tile='bakers']").classList.remove("is-disabled"): document.querySelector("[data-tile='bakers']").classList.add("is-disabled");
+    
+    this.GameSettings.cookie.count >= this.GameSettings.shops.currentPrice ? document.querySelector("[data-tile='shops']").classList.remove("is-disabled"): document.querySelector("[data-tile='shops']").classList.add("is-disabled");
+    
+    this.GameSettings.cookie.count >= this.GameSettings.trucks.currentPrice ? document.querySelector("[data-tile='trucks']").classList.remove("is-disabled"): document.querySelector("[data-tile='trucks']").classList.add("is-disabled");
+    
+    this.GameSettings.cookie.count >= this.GameSettings.yards.currentPrice ? document.querySelector("[data-tile='yards']").classList.remove("is-disabled"): document.querySelector("[data-tile='yards']").classList.add("is-disabled");
+    
   },
   Load: function Load() {
     console.log("Game loading...");
@@ -1238,7 +1330,7 @@ var Game = {
     }${bakerArrayNumber[Math.floor(Math.random() * bakerArrayNumber.length)]}`;
     console.log(bakersname);
     return bakersname;
-  },
+  }
 };
 
 Game.Init();
