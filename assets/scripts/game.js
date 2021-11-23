@@ -1,13 +1,16 @@
+var GameLoaded = false;
+
 var Game = {
   Init: function Init() {
     console.log("Hey You! You Naughty Naughty..");
 
-    // Game Settings
+    // Game Default Settings
     let defaultSettings = {
       autosave: true,
       connectVia: "none",
       isGuest: true,
       sound: false,
+      volume: 1,
       bakersName: localStorage.getItem("bakersName")
         ? localStorage.getItem("bakersName")
         : this.GetBakersName(),
@@ -76,7 +79,10 @@ var Game = {
     this.cookie = document.querySelector(".cookie");
     this.cookieCount = document.querySelector("#cookieCount");
     this.upgradeCounter = document.querySelectorAll(".upgradable-tile");
-
+    this.saveGameButton = document.getElementById("saveGame");
+    this.exportGameButton = document.getElementById("exportGame");
+    this.importGameButton = document.getElementById("importGame");
+    this.wipeGameButton = document.getElementById("wipeGame");
     // Event Listeners
     this.cookie.addEventListener(
       "click",
@@ -90,8 +96,29 @@ var Game = {
         false
       )
     );
+    this.saveGameButton.addEventListener(
+      "click",
+      this.SaveGame.bind(this),
+      false
+    );
+    this.exportGameButton.addEventListener(
+      "click",
+      this.ExportGame.bind(this),
+      false
+    );
+    this.importGameButton.addEventListener(
+      "click",
+      this.ImportGame.bind(this),
+      false
+    );
+    this.wipeGameButton.addEventListener(
+      "click",
+      this.WipeGame.bind(this),
+      false
+    );
     this.Load();
     console.log(this.GameSettings.cookie);
+    GameLoaded = true;
   },
   HandleAudio: function HandleAudio(forWhat) {
     if (!this.GameSettings.sound) {
@@ -114,6 +141,7 @@ var Game = {
     console.log(this.GameSettings.cookie.count);
     this.GameSettings.cookie.count = ++this.GameSettings.cookie.count;
     this.cookieCount.innerText = this.GameSettings.cookie.count;
+    this.totalCps = 0;
     this.HandleAudio("cookie");
     this.HandleUpdates();
     this.CheckUpdates();
@@ -141,7 +169,7 @@ var Game = {
             this.GameSettings.cursors.currentPrice +
             this.GameSettings.cursors.difference;
           this.GameSettings.cursors.cps = parseFloat(
-            this.GameSettings.cursors.count * 0.3 + 0.1
+            this.GameSettings.cursors.count / 10
           ).toFixed(2);
         }
         countOfWhat = "cursors";
@@ -161,6 +189,10 @@ var Game = {
           this.GameSettings.bakers.currentPrice =
             this.GameSettings.bakers.currentPrice +
             this.GameSettings.bakers.difference;
+
+          this.GameSettings.bakers.cps = parseFloat(
+            this.GameSettings.bakers.count
+          ).toFixed(2);
           countOfWhat = "bakers";
         }
         break;
@@ -181,6 +213,10 @@ var Game = {
           this.GameSettings.shops.currentPrice =
             this.GameSettings.shops.currentPrice +
             this.GameSettings.shops.difference;
+          this.GameSettings.shops.cps = parseFloat(
+            this.GameSettings.shops.count + 8
+          ).toFixed(2);
+
           countOfWhat = "shops";
         }
         break;
@@ -201,6 +237,9 @@ var Game = {
           this.GameSettings.trucks.currentPrice =
             this.GameSettings.trucks.currentPrice +
             this.GameSettings.trucks.difference;
+          this.GameSettings.trucks.cps = parseFloat(
+            this.GameSettings.trucks.count + 47
+          ).toFixed(2);
           countOfWhat = "trucks";
         }
         break;
@@ -221,6 +260,9 @@ var Game = {
           this.GameSettings.yards.currentPrice =
             this.GameSettings.yards.currentPrice +
             this.GameSettings.yards.difference;
+          this.GameSettings.yards.cps = parseFloat(
+            this.GameSettings.yards.count + 260
+          ).toFixed(2);
           countOfWhat = "yards";
         }
         break;
@@ -230,29 +272,57 @@ var Game = {
   },
   HandleUpdates: function HandleUpdates(selector, which) {
     if (selector && which) {
-      this.cookieCount.innerText = this.GameSettings.cookie.count;
       selector.querySelector(".buy-money").innerText =
         this.GameSettings[which].currentPrice;
       selector.querySelector(".tile-count").innerText =
         this.GameSettings[which].count;
-      selector.querySelector(".cps").innerText = `${this.GameSettings[which].cps} cookies`;
+      selector.querySelector(
+        ".cps"
+      ).innerText = `${this.GameSettings[which].cps} cookies`;
     }
+    this.cookieCount.innerText = this.GameSettings.cookie.count;
     localStorage.setItem("settings", JSON.stringify(this.GameSettings));
     this.CheckUpdates();
     console.log("Updated..");
   },
-  CheckUpdates: function CheckUpdates(){
-    console.log("Checking prices..")
-    this.GameSettings.cookie.count >= this.GameSettings.cursors.currentPrice ? document.querySelector("[data-tile='cursors']").classList.remove("is-disabled"): document.querySelector("[data-tile='cursors']").classList.add("is-disabled");
-    
-    this.GameSettings.cookie.count >= this.GameSettings.bakers.currentPrice ? document.querySelector("[data-tile='bakers']").classList.remove("is-disabled"): document.querySelector("[data-tile='bakers']").classList.add("is-disabled");
-    
-    this.GameSettings.cookie.count >= this.GameSettings.shops.currentPrice ? document.querySelector("[data-tile='shops']").classList.remove("is-disabled"): document.querySelector("[data-tile='shops']").classList.add("is-disabled");
-    
-    this.GameSettings.cookie.count >= this.GameSettings.trucks.currentPrice ? document.querySelector("[data-tile='trucks']").classList.remove("is-disabled"): document.querySelector("[data-tile='trucks']").classList.add("is-disabled");
-    
-    this.GameSettings.cookie.count >= this.GameSettings.yards.currentPrice ? document.querySelector("[data-tile='yards']").classList.remove("is-disabled"): document.querySelector("[data-tile='yards']").classList.add("is-disabled");
-    
+  CheckUpdates: function CheckUpdates() {
+    console.log("Checking prices..");
+    /*- Enable / Disable Upgrades -*/
+    this.GameSettings.cookie.count >= this.GameSettings.cursors.currentPrice
+      ? document
+          .querySelector("[data-tile='cursors']")
+          .classList.remove("is-disabled")
+      : document
+          .querySelector("[data-tile='cursors']")
+          .classList.add("is-disabled");
+    this.GameSettings.cookie.count >= this.GameSettings.bakers.currentPrice
+      ? document
+          .querySelector("[data-tile='bakers']")
+          .classList.remove("is-disabled")
+      : document
+          .querySelector("[data-tile='bakers']")
+          .classList.add("is-disabled");
+    this.GameSettings.cookie.count >= this.GameSettings.shops.currentPrice
+      ? document
+          .querySelector("[data-tile='shops']")
+          .classList.remove("is-disabled")
+      : document
+          .querySelector("[data-tile='shops']")
+          .classList.add("is-disabled");
+    this.GameSettings.cookie.count >= this.GameSettings.trucks.currentPrice
+      ? document
+          .querySelector("[data-tile='trucks']")
+          .classList.remove("is-disabled")
+      : document
+          .querySelector("[data-tile='trucks']")
+          .classList.add("is-disabled");
+    this.GameSettings.cookie.count >= this.GameSettings.yards.currentPrice
+      ? document
+          .querySelector("[data-tile='yards']")
+          .classList.remove("is-disabled")
+      : document
+          .querySelector("[data-tile='yards']")
+          .classList.add("is-disabled");
   },
   Load: function Load() {
     console.log("Game loading...");
@@ -1330,7 +1400,66 @@ var Game = {
     }${bakerArrayNumber[Math.floor(Math.random() * bakerArrayNumber.length)]}`;
     console.log(bakersname);
     return bakersname;
+  },
+  HandleCursorAutoClicks: function HandleAutoClicks() {
+    if (!this.GameSettings.cursors.count) {
+      return;
+    }
+    console.log("cursor counted.");
+    this.GameSettings.cookie.count =
+      this.GameSettings.cookie.count + this.GameSettings.cursors.count;
+    this.HandleUpdates();
+  },
+  HandleOtherUpgradesClicks: function HandleOtherUpgradesClicks() {
+    console.log("Other Upgrades..");
+    if (this.GameSettings.bakers.count) {
+      console.log("Bakers..");
+      this.GameSettings.cookie.count =
+        this.GameSettings.cookie.count + this.GameSettings.bakers.count;
+    }
+    if (this.GameSettings.shops.count) {
+      this.GameSettings.cookie.count =
+        this.GameSettings.cookie.count + this.GameSettings.shops.count + 8;
+    }
+    if (this.GameSettings.trucks.count) {
+      this.GameSettings.cookie.count =
+        this.GameSettings.cookie.count + this.GameSettings.trucks.count + 47;
+    }
+    if (this.GameSettings.yards.count) {
+      this.GameSettings.cookie.count =
+        this.GameSettings.cookie.count + this.GameSettings.yards.count + 260;
+    }
+    this.HandleUpdates();
+  },
+  SaveGame: function SaveGame() {
+    console.log("SaveGame");
+    this.HandleUpdates();
+  },
+  ExportGame: function ExportGame() {
+    console.log("ExportGame");
+    function SaveAsFile(t, f, m) {
+      try {
+          var b = new Blob([t], { type: m });
+          saveAs(b, f);
+      } catch (e) {
+          window.open("data:" + m + "," + encodeURIComponent(t), '_blank', '');
+      }
   }
+console.log(this.GameSettings)
+  SaveAsFile(JSON.stringify(this.GameSettings), `${this.GameSettings.bakersName}.txt`, "text/plain;charset=utf-8");
+  },
+  ImportGame: function ImportGame() {
+    console.log("ImportGame");
+  },
+  WipeGame: function WipeGame() {
+    console.log("WipeGame");
+  },
 };
-
 Game.Init();
+
+GameLoaded
+  ? window.setInterval(() => Game.HandleCursorAutoClicks(), 10000)
+  : console.log("Game is loading.."); // Cursor clicks every 10secs.
+GameLoaded
+  ? window.setInterval(() => Game.HandleOtherUpgradesClicks(), 1000)
+  : console.log("Game is loading.."); // Cursor clicks every 1secs.
