@@ -494,6 +494,7 @@ sub {
   height: 100%;
   background: #000000d1;
   position: relative;
+  display: none;
 }
 .dialog-close {
   width: 45px;

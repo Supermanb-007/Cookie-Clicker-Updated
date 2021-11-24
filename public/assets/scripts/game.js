@@ -2,7 +2,7 @@ var GameLoaded = false;
 
 var Game = {
   Init: function Init() {
-    console.log("Hey You! You Naughty Naughty..");
+    //console.log("Hey You! You Naughty Naughty..");
 
     // Game Default Settings
     let defaultSettings = {
@@ -83,6 +83,9 @@ var Game = {
     this.exportGameButton = document.getElementById("exportGame");
     this.importGameButton = document.getElementById("importGame");
     this.wipeGameButton = document.getElementById("wipeGame");
+    this.importFile = document.getElementById("importFile");
+    this.toggleOption = document.querySelectorAll("[data-option]");
+    this.closeOption = document.querySelectorAll("[data-close-option]");
     // Event Listeners
     this.cookie.addEventListener(
       "click",
@@ -116,8 +119,27 @@ var Game = {
       this.WipeGame.bind(this),
       false
     );
+    this.importFile.addEventListener(
+      "change",
+      this.ImportGameViaReader.bind(this),
+      false
+    );
+    this.toggleOption.forEach((optionInstance) => {
+      optionInstance.addEventListener(
+        "click",
+        this.ToggleOptions.bind(this),
+        false
+      );
+    });
+    this.closeOption.forEach((closeInstance) => {
+      closeInstance.addEventListener(
+        "click",
+        this.CloseOptionPane.bind(this),
+        false
+      );
+    });
     this.Load();
-    console.log(this.GameSettings.cookie);
+    //console.log(this.GameSettings.cookie);
     GameLoaded = true;
   },
   HandleAudio: function HandleAudio(forWhat) {
@@ -138,7 +160,7 @@ var Game = {
     }
   },
   HandleCookieClicks: function HandleCookieClicks() {
-    console.log(this.GameSettings.cookie.count);
+    //console.log(this.GameSettings.cookie.count);
     this.GameSettings.cookie.count = ++this.GameSettings.cookie.count;
     this.cookieCount.innerText = this.GameSettings.cookie.count;
     this.totalCps = 0;
@@ -283,10 +305,10 @@ var Game = {
     this.cookieCount.innerText = this.GameSettings.cookie.count;
     localStorage.setItem("settings", JSON.stringify(this.GameSettings));
     this.CheckUpdates();
-    console.log("Updated..");
+    //console.log("Updated..");
   },
   CheckUpdates: function CheckUpdates() {
-    console.log("Checking prices..");
+    //console.log("Checking prices..");
     /*- Enable / Disable Upgrades -*/
     this.GameSettings.cookie.count >= this.GameSettings.cursors.currentPrice
       ? document
@@ -325,9 +347,9 @@ var Game = {
           .classList.add("is-disabled");
   },
   Load: function Load() {
-    console.log("Game loading...");
+    //console.log("Game loading...");
     // Loading Game Values
-    console.log(this);
+    //console.log(this);
     this.cookieCount.innerText = this.GameSettings.cookie.count;
     this.nameChanger.querySelector("span").innerText =
       this.nameChanger.querySelector("span").innerText = this.GameSettings
@@ -337,7 +359,7 @@ var Game = {
     this.upgradeCounter.forEach((tileInstance) =>
       this.HandleUpdates(tileInstance, tileInstance.getAttribute("data-tile"))
     );
-    console.log(this.GameSettings.bakersName);
+    //console.log(this.GameSettings.bakersName);
   },
   GetBakersName: function GetBakersName() {
     let bakerArrayName = [
@@ -1398,22 +1420,22 @@ var Game = {
     }${
       bakerArraySymbols[Math.floor(Math.random() * bakerArraySymbols.length)]
     }${bakerArrayNumber[Math.floor(Math.random() * bakerArrayNumber.length)]}`;
-    console.log(bakersname);
+    //console.log(bakersname);
     return bakersname;
   },
   HandleCursorAutoClicks: function HandleAutoClicks() {
     if (!this.GameSettings.cursors.count) {
       return;
     }
-    console.log("cursor counted.");
+    //console.log("cursor counted.");
     this.GameSettings.cookie.count =
       this.GameSettings.cookie.count + this.GameSettings.cursors.count;
     this.HandleUpdates();
   },
   HandleOtherUpgradesClicks: function HandleOtherUpgradesClicks() {
-    console.log("Other Upgrades..");
+    //console.log("Other Upgrades..");
     if (this.GameSettings.bakers.count) {
-      console.log("Bakers..");
+      //console.log("Bakers..");
       this.GameSettings.cookie.count =
         this.GameSettings.cookie.count + this.GameSettings.bakers.count;
     }
@@ -1432,27 +1454,118 @@ var Game = {
     this.HandleUpdates();
   },
   SaveGame: function SaveGame() {
-    console.log("SaveGame");
+    //console.log("SaveGame");
     this.HandleUpdates();
   },
   ExportGame: function ExportGame() {
-    console.log("ExportGame");
-    function SaveAsFile(t, f, m) {
-      try {
-          var b = new Blob([t], { type: m });
-          saveAs(b, f);
-      } catch (e) {
-          window.open("data:" + m + "," + encodeURIComponent(t), '_blank', '');
-      }
-  }
-console.log(this.GameSettings)
-  SaveAsFile(JSON.stringify(this.GameSettings), `${this.GameSettings.bakersName}.txt`, "text/plain;charset=utf-8");
+    //console.log("ExportGame");
+    //SaveAsFile(JSON.stringify(this.GameSettings), `${this.GameSettings.bakersName}.txt`, "text/plain;charset=utf-8");
+    var blob = new Blob([JSON.stringify(this.GameSettings)], {
+      type: "text/plain;charset=utf-8",
+    });
+    saveAs(blob, `${this.GameSettings.bakersName}.txt`);
   },
   ImportGame: function ImportGame() {
-    console.log("ImportGame");
+    document.getElementById("importFile").click();
   },
   WipeGame: function WipeGame() {
-    console.log("WipeGame");
+    //console.log("WipeGame");
+    if (window.confirm("Do you really want to wipe the game ?")) {
+      this.GameSettings = {
+        autosave: true,
+        connectVia: "none",
+        isGuest: true,
+        sound: false,
+        volume: 1,
+        bakersName: localStorage.getItem("bakersName")
+          ? localStorage.getItem("bakersName")
+          : this.GetBakersName(),
+        cookie: {
+          count: localStorage.getItem("cookiesCount")
+            ? parseInt(localStorage.getItem("cookiesCount"))
+            : 0,
+          cps: 0,
+        },
+        cursors: {
+          count: localStorage.getItem("cursorCount")
+            ? parseInt(localStorage.getItem("cursorCount"))
+            : 0,
+          basePrice: 15,
+          currentPrice: 15,
+          difference: 3,
+          cps: 0,
+        },
+        bakers: {
+          count: localStorage.getItem("bakerCount")
+            ? parseInt(localStorage.getItem("bakerCount"))
+            : 0,
+          basePrice: 100,
+          currentPrice: 100,
+          difference: 33,
+          cps: 0,
+        },
+        shops: {
+          count: localStorage.getItem("cookieShopCount")
+            ? parseInt(localStorage.getItem("cookieShopCount"))
+            : 0,
+          basePrice: 1100,
+          currentPrice: 1100,
+          difference: 165,
+          cps: 0,
+        },
+        trucks: {
+          count: localStorage.getItem("truckCount")
+            ? parseInt(localStorage.getItem("truckCount"))
+            : 0,
+          basePrice: 12000,
+          currentPrice: 12000,
+          difference: 1800,
+          cps: 0,
+        },
+        yards: {
+          count: localStorage.getItem("yardCount")
+            ? parseInt(localStorage.getItem("yardCount"))
+            : 0,
+          basePrice: 130000,
+          currentPrice: 130000,
+          difference: 19500,
+          cps: 0,
+        },
+        sounds: {
+          crunchSound: "../assets/sounds/cookie_crunch.mp3",
+          otherSound: "../assets/sounds/buy_click.mp3",
+        },
+      };
+      this.Load();
+    }
+  },
+  ImportGameViaReader: function ImportGameViaReader(event) {
+    let reader = new FileReader();
+    let output = "";
+    const loadGameContents = (output) => {
+      this.GameSettings = JSON.parse(output);
+      this.Load();
+    };
+    if (event.target.files && event.target.files[0]) {
+      reader.onload = function (e) {
+        output = e.target.result;
+        loadGameContents(output);
+      };
+      reader.readAsText(event.target.files[0]);
+    }
+  },
+  ToggleOptions: function ToggleOptions(event) {
+    let optionName = event.target.getAttribute("data-option");
+    document.querySelectorAll("[data-option-pane]").forEach((instance) => {
+      instance.style.display = "none";
+    });
+    document.querySelector(`[data-option-pane='${optionName}']`).style.display =
+      "block";
+  },
+  CloseOptionPane: function CloseOptionPane() {
+    document.querySelectorAll("[data-option-pane]").forEach((instance) => {
+      instance.style.display = "none";
+    });
   },
 };
 Game.Init();
